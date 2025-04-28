@@ -47,23 +47,22 @@ public:
         float area = 0.5 * abs(A.getX() * (B.getY() - C.getY()) + B.getX() * (C.getY() - A.getY()) + C.getX() * (A.getY() - B.getY()));
         return area;
     }
-    void print() {
-        cout << "Tam giac co 3 dinh:" << endl;
-        cout << "A"; A.print_point(); cout << endl;
-        cout << "B"; B.print_point(); cout << endl;
-        cout << "C"; C.print_point(); cout << endl;
-        cout << "Chu vi tam giac: " << perimeter() << endl;
-        cout << "Dien tich tam giac: " << area_calculation() << endl;
-        int type = classify();
-        cout << "thuoc tam giac: ";
-        switch(type) {
-            case 0: cout << "Tam giac thuong"; break;
-            case 1: cout << "Tam giac vuong"; break;
-            case 2: cout << "Tam giac can"; break;
-            case 3: cout << "Tam giac vuong can"; break;
-            case 4: cout << "Tam giac deu"; break;
+    friend ostream& operator<<(ostream& os, const TamGiac& tg) {
+        os << "Tam giac co 3 dinh:\n";
+        os << "A"; tg.A.print_point(); os << "\n";
+        os << "B"; tg.B.print_point(); os << "\n";
+        os << "C"; tg.C.print_point(); os << "\n";
+        os << "Chu vi tam giac: " << tg.perimeter() << "\n";
+        os << "Dien tich tam giac: " << tg.area_calculation() << "\n";
+        os << "thuoc tam giac: ";
+        switch (tg.classify()) {
+            case 0: os << "Tam giac thuong"; break;
+            case 1: os << "Tam giac vuong"; break;
+            case 2: os << "Tam giac can"; break;
+            case 3: os << "Tam giac vuong can"; break;
+            case 4: os << "Tam giac deu"; break;
         }
-        cout << endl;
+        return os;
     }
     int classify() {
         float AB = distance(A, B);
@@ -94,6 +93,6 @@ public:
 int main() {
     TamGiac tam_giac1;
     tam_giac1.set(0, 0, 2, 0, 1, 1);
-    tam_giac1.print();
+    cout << tam_giac1;
     return 0;
 }
