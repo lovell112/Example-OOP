@@ -1,5 +1,5 @@
 #include <iostream>
-#include <math.h>
+#include <cmath>
 using namespace std;
 
 class TamGiac {
@@ -7,17 +7,18 @@ protected:
     float a, b, c;
 
 public:
+    TamGiac() {}
     TamGiac(float a, float b, float c) {
         this->a = a;
         this->b = b;
         this->c = c;
     }
 
-    bool kiemtratamgiac() {
+    bool kiemtratamgiac() const {
         return (a + b > c) && (a + c > b) && (b + c > a);
     }
 
-    float tinhchuvi() {
+    float tinhchuvi() const {
         if (!kiemtratamgiac()) {
             cout << "Cac canh khong tao thanh tam giac hop le!" << endl;
             return -1;
@@ -25,7 +26,7 @@ public:
         return a + b + c;
     }
 
-    float tinhdientich() {
+    float tinhdientich() const {
         if (!kiemtratamgiac()) {
             cout << "Cac canh khong tao thanh tam giac hop le!" << endl;
             return -1;
@@ -34,36 +35,29 @@ public:
         return sqrt(p * (p - a) * (p - b) * (p - c));
     }
 
-    void print() {
-        cout << "Canh a: " << a << ", canh b: " << b << ", canh c: " << c << endl;
+    friend ostream& operator<<(ostream& os, const TamGiac& tg) {
+        os << "Canh a: " << tg.a << ", canh b: " << tg.b << ", canh c: " << tg.c << endl;
+        return os;
     }
 };
 
 class TamGiacDeu : public TamGiac {
 public:
-    TamGiacDeu(float canh) : TamGiac(canh, canh, canh) {
-    }
+    TamGiacDeu(float canh) : TamGiac(canh, canh, canh) {}
 
-    void set(float canh) {
-        a = b = c = canh;
-    }
-
-    void print() {
-        cout << "Tam giac deu co canh: " << endl;
-        TamGiac::print();
-        float chuvi = tinhchuvi();
-        if (chuvi != -1) {
-            cout << "Chu vi: " << chuvi << endl;
+    friend ostream& operator<<(ostream& os, const TamGiacDeu& tgd) {
+        os << "Tam giac deu co canh: " << endl;
+        os << static_cast<const TamGiac&>(tgd);
+        if (tgd.kiemtratamgiac()) {
+            os << "Chu vi: " << tgd.tinhchuvi() << endl;
+            os << "Dien tich: " << tgd.tinhdientich() << endl;
         }
-        float dientich = tinhdientich();
-        if (dientich != -1) {
-            cout << "Dien tich: " << dientich << endl;
-        }
+        return os;
     }
 };
 
 int main() {
     TamGiacDeu m(5);
-    m.print();
+    cout << m;
     return 0;
 }

@@ -124,11 +124,11 @@ public:
         return result;
     }
     polynomial derivative() {
-        int resultSize = n - 1;
-        if(resultSize==0)
-            return polynomial(1, 0);
-        polynomial result(resultSize);
-        for (int i = 0; i <= result.n; i++)
+        // int resultSize = size - 1;
+        // if(resultSize==1)
+        //     return polynomial(1, 0);
+        polynomial result(n-1);
+        for (int i = 0; i < result.size; i++)
             result.data[i] = data[i+1] * (i+1); 
         return result;
     }
@@ -150,8 +150,9 @@ int main() {
     polynomial fx(n);
     cin >> fx;
     cout << fx << endl;
+    cout << fx.derivative() << endl;
     cout << fx.primative() << endl;
-    cout << fx.integral(1, 2);
+    cout << fixed << setprecision(4) << fx.integral(1, 2);
 
     // cout << fx.derivative();
     // int m;
