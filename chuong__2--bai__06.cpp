@@ -73,7 +73,7 @@ public:
     void print() {
         cout << *this;
     }
-    float calculate(int val) {
+    float calculate(int val) { //hàm số tại giá trị val
         int result = 0;
         for (int i = 0; i <= n; i++)
             result += pow(val, i) * data[i];
@@ -125,7 +125,7 @@ public:
         }
         return result;
     }
-    polynomial derivative() {
+    polynomial derivative() { // đạo hàm
         if(n==0)
             return polynomial(1, 0);
         polynomial result(n-1);
@@ -133,14 +133,14 @@ public:
             result.data[i] = data[i+1] * (i+1); 
         return result;
     }
-    polynomial primative() {
+    polynomial primative() { // nguyên hàm
         polynomial result(n+1);
         for (int i = 1; i < result.size; i++) {
             result[i] = data[i-1]/i;
         }
         return result;
     }
-    double integral(double a, double b) {
+    double integral(double a, double b) { // tích phân
         return primative().calculate(b) - primative().calculate(a);
     }
 };

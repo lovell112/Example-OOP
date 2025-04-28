@@ -78,7 +78,7 @@ public:
     ~Binary() {
         cout << "Binary is destructed. ";
     }
-    string translateBinary(int n) {
+    string translateBinary(int n) { // chuyển đổi hệ 10 -> 2
         if (n==0)
             return "0";
         string result;

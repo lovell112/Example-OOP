@@ -18,13 +18,13 @@ public:
     int GetDay(){return day;}
     int GetMonth(){return month;}
     int GetYear(){return year;}
-    bool isLeap(int _year) {
+    bool isLeap(int _year) { // kiểm tra năm nhuận
         return (_year%400==0||(_year%4==0&&_year%100!=0));
     }
-    void UpdateFeb() {
+    void UpdateFeb() { // cập nhật tháng 2, nêu năm nhuận thì tháng 2 có 29 ngày, ngược lại thì 28
         maxDays[1] = isLeap(year)?29:28;
     }
-    bool isDateValid(int _day, int _month, int _year) {
+    bool isDateValid(int _day, int _month, int _year) { // kiểm tra ngày có hợp lệ hay không?
         if (_day <= 0 || _day > 31 || _year <= 0 || _month <= 0 || _month > 12)
             return 0;
         if (_month == 2) {
@@ -34,17 +34,15 @@ public:
                 return 1;
             else return 0;
         }
-        if (_month == 4 || _month == 6 || _month == 9 || _month == 11)
-            return _day <= 30;
-        return _day <= 31;
+        return _day <= maxDays[_month-1];
     }
-    Date AdvanceDate(int k_day) {
+    Date AdvanceDate(int k_day) { // sau k ngày thì sẽ là ngày mấy
         return *this + k_day;
     }
-    friend int DeltaTwoDate(Date param_1, Date param_2) {
+    friend int DeltaTwoDate(Date param_1, Date param_2) { // khoảng cách giữa 2 ngày
         return param_1-param_2;
     }
-    friend const Date& MaxDate( Date param_1, Date param_2) {
+    friend const Date& MaxDate( Date param_1, Date param_2) { // trả về ngày nào lớn hơn
         return param_1>=param_2?param_1:param_2;
     }
     friend int operator-(Date subtrahendDate, Date minuendDate) {
@@ -74,7 +72,7 @@ public:
             os << "invalid!";
         return os;
     }
-    const int& MaxDayOfMonth() {
+    const int& MaxDayOfMonth() { // trả về số ngày tối đa của tháng đó, trong năm
         return maxDays[month-1];
     }
     friend Date operator+(Date date, int deltaDays) {

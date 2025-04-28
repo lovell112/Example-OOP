@@ -7,7 +7,7 @@ class Array {
     int capacity;
     T* data;
 public:
-    Array(int _size = 0, T defaultValue = T()) {
+    Array(int _size = 0, T defaultValue = T()) { // constructor
         size = _size;
         capacity = size;
         if (size!=0) {
@@ -18,7 +18,7 @@ public:
             data = nullptr;
         }
     }
-    Array(const Array<T>& other) {
+    Array(const Array<T>& other) { // copy constructor
         size = other.size;
         capacity = other.capacity;
         data = new T[capacity];
@@ -28,7 +28,7 @@ public:
     ~Array() {
         delete[] data;
     }
-    void pushBack(T val) {
+    void pushBack(T val) { // thêm phần tử vào cuối array
         if (size==capacity) {
             int newCapacity = capacity==0?1:capacity*2;
             T* newData = new T[newCapacity];
@@ -61,7 +61,7 @@ public:
         data = newData;
         size = newSize;
     }
-    void add(T val, int index) {
+    void add(T val, int index) { // chèn phần tử vào 1 vị trí nào đó
         if (index<0 || index>size)
             return;
         if (size==capacity) {
@@ -82,7 +82,7 @@ public:
         size++;
         data[index] = val;
     }
-    void remove(int index) {
+    void remove(int index) { // xóa phần tử tại một vị trí nào đó
         if (index<0 || index >= size)
             return;
         for (int i = 0; i < size; i++) {
@@ -94,7 +94,7 @@ public:
         size--;
         data[size] = T();
     }
-    void sort() {
+    void sort() { // sắp xếp array theo thứ tự nhỏ -> lớn
         for (int i = 0; i < size; i++) {
             for (int j = i+1; j < size; j++) {
                 if (data[i]>data[j]) {
@@ -105,14 +105,14 @@ public:
             }
         }
     }
-    T min() {
+    T min() { // phần tử nhỏ nhất trong array;
         T minVal = data[0];
         for (int i = 1; i < size; i++)
             if (data[i]<minVal)
                 minVal = data[i];
         return minVal;
     }
-    T sum() {
+    T sum() { // tổng mảng
         T s = T();
         for (int i = 0; i < size; i++)
             s = s + data[i];
@@ -131,7 +131,7 @@ public:
             os << param[i] << " ";
         return os;
     }
-    Array& operator=(const Array<T>& other) {
+    Array& operator=(const Array<T>& other) { // assignment operator
         if (this==&other)
             return *this;
         delete[] data;
