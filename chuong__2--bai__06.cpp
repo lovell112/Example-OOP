@@ -44,11 +44,13 @@ public:
             if (param.data[i]==0) continue; 
             if (flag && param.data[i]>0) os << "+";
             flag = 1;
-            if (i==0) os << fixed << setprecision(1) << param.data[i];
-            else if (i==1 && param.data[i]!=1) os << fixed << setprecision(1) << param.data[i] << "x";
+            if (i==0) os << param.data[i];
+            else if (i==1 && param.data[i]!=1) os << param.data[i] << "x";
             else if (i==1 && param.data[i]==1) os << "x";
+            else if (i==1 && param.data[i]==-1) os << "-x";
             else if (i!=1 && param.data[i]==1) os << "x^" << i;
-            else os << fixed << setprecision(1) << param.data[i] << "x^" << i;
+            else if (i!=1 && param.data[i]==-1) os << "-x^" << i;
+            else os << param.data[i] << "x^" << i;
         }
         return os;
     }
@@ -124,9 +126,8 @@ public:
         return result;
     }
     polynomial derivative() {
-        // int resultSize = size - 1;
-        // if(resultSize==1)
-        //     return polynomial(1, 0);
+        if(n==0)
+            return polynomial(1, 0);
         polynomial result(n-1);
         for (int i = 0; i < result.size; i++)
             result.data[i] = data[i+1] * (i+1); 
@@ -152,7 +153,7 @@ int main() {
     cout << fx << endl;
     cout << fx.derivative() << endl;
     cout << fx.primative() << endl;
-    cout << fixed << setprecision(4) << fx.integral(1, 2);
+    cout << fx.integral(1, 2);
 
     // cout << fx.derivative();
     // int m;
