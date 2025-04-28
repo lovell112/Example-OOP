@@ -44,9 +44,7 @@ public:
         return AB + BC + CA;
     }
     float area_calculation() const {
-        float area = 0.5 * abs(A.getX() * (B.getY() - C.getY()) + 
-                              B.getX() * (C.getY() - A.getY()) + 
-                              C.getX() * (A.getY() - B.getY()));
+        float area = 0.5 * abs(A.getX() * (B.getY() - C.getY()) + B.getX() * (C.getY() - A.getY()) + C.getX() * (A.getY() - B.getY()));
         return area;
     }
     void print() {
