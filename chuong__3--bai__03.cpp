@@ -67,6 +67,7 @@ public:
             m_sopt--;
             return m_data[m_sopt];
         }
+        return -100000;
     }
 };
 
