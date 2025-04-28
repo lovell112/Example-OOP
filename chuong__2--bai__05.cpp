@@ -7,7 +7,7 @@ struct point2D {
     int y;
 };
 
-float lineLength(point2D a, point2D b) {
+float lineLength(point2D a, point2D b) { // tính chiều dài cạnh
     return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
 }
 
@@ -32,6 +32,7 @@ public:
         c.x = cx;
         c.y = cy;
     }
+    ~triangle(){}
     void print() {
         cout << "A(" << a.x << ", " << a.y << "), ";
         cout << "B(" << b.x << ", " << b.y << "), ";
@@ -45,7 +46,7 @@ public:
         c.x = cx;
         c.y = cy;
     }
-    float calPerimeter() {
+    float calPerimeter() { // tính chu vi
         float A = lineLength(b, c);
         float B = lineLength(a, c);
         float C = lineLength(a, b);
@@ -58,11 +59,11 @@ public:
         float p = calPerimeter()/2;
         return sqrt(p*(p-A)*(p-B)*(p-C)/A) * A * 0.5;
     }
-    int distribute() {
+    int distribute() { // phân loại tam giác
         float A = round(lineLength(b, c) * 100)/100;
         float B = round(lineLength(a, c) * 100)/100;
         float C = round(lineLength(a, b) * 100)/100;
-        bool square1 = fabs((A*A - B*B - C*C)) < 1e-6;
+        bool square1 = fabs((A*A - B*B - C*C)) < 1e-6; // huyền^2 - cạnh^2 - cạnh^2  =  0
         bool square2 = fabs((B*B - A*A - C*C)) < 1e-6;
         bool square3 = fabs((C*C - A*A - B*B)) < 1e-6;
         bool isosceles = (A == B) || (B == C) || (C == A);
@@ -79,7 +80,7 @@ int main() {
     triangle* ABC = new triangle(3, 1, 5, 2, 7, 6);
     cout << "after" << endl;
     ABC->print();
-    ABC->setTriangle(0, 0, 4, 0, 2, 3);
+    ABC->setTriangle(0, 0, 1, 0, 0, 1);
     cout << "before" << endl;
     ABC->print();
     cout << "perimeter = " << ABC->calPerimeter() << endl;

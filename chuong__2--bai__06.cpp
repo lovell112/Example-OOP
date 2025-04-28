@@ -1,98 +1,120 @@
 #include <iostream>
+#include <iomanip>
 #include <cmath>
 using namespace std;
 
 class polynomial {
     int n;
-    int* data;
+    int size;
+    float* data;
 public:
     polynomial(int _n = 0, int val = 0) {
         n = _n;
-        if (n!=0) {
-            data = new int[n];
-            for (int i = 0; i <= n; i++)
+        size = n + 1;
+        if (size > 0) {
+            data = new float[size];
+            for (int i = 0; i < size; i++)
                 data[i] = val;
-        }
+        } else 
+            data = nullptr;
     }
-    // ~polynomial() {
-    //     delete[] data;
-    // }
-    friend istream& operator>>(istream& is, polynomial& arg) {
-        for (int i = 0; i <= arg.n; i++)
-            is >> arg.data[i];
+    polynomial(const polynomial& other){
+        n = other.n;
+        size = other.size;
+        if(size>0) {
+            data = new float[size];
+            for(int i = 0; i < size; i++)
+                data[i] = other.data[i];
+        } else {
+            data = nullptr;
+        }
+        
+    }
+    ~polynomial() {
+        delete[] data;
+    }
+    friend istream& operator>>(istream& is, polynomial& param) {
+        for (int i = 0; i < param.size; i++)
+            is >> param.data[i];
         return is;
     }
-    friend ostream& operator<<(ostream& os, polynomial arg) {
-        bool flag = 0;
-        for (int i = arg.n; i >= 0; i--) {
-            if (arg.data[i]==0) continue;
-            if (flag) os << "+";
+    friend ostream& operator<<(ostream& os, polynomial param) {
+        bool flag = 0; // để xuất dấu +
+        for (int i = param.size - 1; i >= 0; i--) {
+            if (param.data[i]==0) continue; 
+            if (flag && param.data[i]>0) os << "+";
             flag = 1;
-            if (i==0) os << arg.data[i];
-            else if (i==1 && arg.data[i]!=1) os << arg.data[i] << "x";
-            else if (i==1 && arg.data[i]==1) os << "x";
-            else if (i!=1 && arg.data[i]==1) os << "x^" << i;
-            else os << arg.data[i] << "x^" << i;
+            if (i==0) os << fixed << setprecision(1) << param.data[i];
+            else if (i==1 && param.data[i]!=1) os << fixed << setprecision(1) << param.data[i] << "x";
+            else if (i==1 && param.data[i]==1) os << "x";
+            else if (i!=1 && param.data[i]==1) os << "x^" << i;
+            else os << fixed << setprecision(1) << param.data[i] << "x^" << i;
         }
         return os;
     }
+    polynomial operator=(const polynomial& other){
+        if (data!=nullptr)
+            delete[] data;
+        n = other.n;
+        size = other.size;
+        if(size>0) {
+            data = new float[size];
+            for(int i = 0; i < size; i++)
+                data[i] = other.data[i];
+        } else {
+            data = nullptr;
+        }
+    }
     void input() {
-        for (int i = 0; i <= n; i++)
-            cin >> data[i];
+        cin >> *this;
     }
     void print() {
-        bool flag = 0;
-        for (int i = n; i >= 0; i--) {
-            if (data[i]==0) continue;
-            if (flag) cout << "+";
-            flag = 1;
-            if (i==0) cout << data[i];
-            else if (i==1 && data[i]!=1) cout << data[i] << "x";
-            else if (i==1 && data[i]==1) cout << "x";
-            else if (i!=1 && data[i]==1) cout << "x^" << i;
-            else cout << data[i] << "x^" << i;
-        }
+        cout << *this;
     }
-    int calculate(int val) {
+    float calculate(int val) {
         int result = 0;
         for (int i = 0; i <= n; i++)
-            result += (int)pow(val, i) * data[i];
+            result += pow(val, i) * data[i];
         return result;
     }
-    friend polynomial operator+(polynomial arg_1, polynomial arg_2) {
-        polynomial result(arg_1.n>arg_2.n?arg_1.n:arg_2.n);
-        for (int i = 0; i <= result.n; i++) {
-            if (i <= (arg_1.n<arg_2.n?arg_1.n:arg_2.n))
-                result.data[i] = arg_1.data[i] + arg_2.data[i];
+    friend polynomial operator+(polynomial param_1, polynomial param_2) {
+        polynomial result(max(param_1.n, param_2.n));
+        for (int i = 0; i < result.size; i++) {
+            if (i <= (min(param_1.n, param_2.n)))
+                result.data[i] = param_1.data[i] + param_2.data[i];
             else
-                result.data[i] = (arg_1.n>arg_2.n?arg_1.data[i]:arg_2.data[i]);
+                result.data[i] += (param_1.n>param_2.n?param_1.data[i]:param_2.data[i]);
         }
         return result;
     }
-    friend polynomial operator-(polynomial arg_1, polynomial arg_2) {
-        for (int i = 0; i <= arg_2.n; i++)
-            arg_2.data[i] = -arg_2.data[i];
-        return arg_1 + arg_2;
+    friend polynomial operator-(polynomial param_1, polynomial param_2) {
+        for (int i = 0; i < param_2.size; i++)
+            param_2.data[i] = -param_2.data[i];
+        return param_1 + param_2;
     }
-    friend polynomial operator*(polynomial arg_1, polynomial arg_2) {
-        polynomial result(arg_1.n+arg_2.n);
-        for (int i = 0; i <= arg_1.n; i++) {
-            for (int j = 0; j <= arg_2.n; j++) {
-                result.data[i+j] += (arg_1.data[i] * arg_2.data[j]);
+    friend polynomial operator*(polynomial param_1, polynomial param_2) {
+        polynomial result(param_1.n+param_2.n);
+        for (int i = 0; i < param_1.size; i++) {
+            for (int j = 0; j < param_2.size; j++) {
+                result.data[i+j] += (param_1.data[i] * param_2.data[j]);
             }
         }
         return result;
     }
-    int& operator[](int index) {
+
+
+// (x^4 + x^5 ) * (x^9 + x )
+
+    float& operator[](int index) {
         return data[index];
     }
     polynomial operator++() {
-        polynomial result(this->n + 1);
+        polynomial result(this->size+1);
         result[0] = 0;
-        for (int i = 1; i <= result.n; i++)
+        for (int i = 1; i < result.size; i++)
             result[i] = this->data[i-1];
         return result;
-    }
+    } // x^2 + x^3 => x^3 + x^4
     polynomial operator--() {
         polynomial result(this->n - 1);
         result[0] = this->data[0] + this->data[1];
@@ -102,18 +124,18 @@ public:
         return result;
     }
     polynomial derivative() {
-        polynomial result(n - 1);
+        int resultSize = n - 1;
+        if(resultSize==0)
+            return polynomial(1, 0);
+        polynomial result(resultSize);
         for (int i = 0; i <= result.n; i++)
-            result.data[i] = data[i+1] * (i+1);
+            result.data[i] = data[i+1] * (i+1); 
         return result;
     }
     polynomial primative() {
         polynomial result(n+1);
-        for (int i = 1; i <= result.n; i++) {
-            if (i-1==0 && data[i-1]==0)
-                result[0] = 0;
-            else
-                result[i] = data[i-1]/i;
+        for (int i = 1; i < result.size; i++) {
+            result[i] = data[i-1]/i;
         }
         return result;
     }
