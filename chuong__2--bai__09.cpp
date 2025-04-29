@@ -10,17 +10,17 @@ public:
     // Hàm khởi tạo mặc định
     Stack() {}
 
-    // Hàm khởi tạo sao chép (copy constructor)
+    // Hàm khởi tạo sao chép 
     Stack(const Stack& other) {
         elements = other.elements;
     }
 
-    // Hàm khởi tạo với vector ban đầu
+    // Hàm khởi tạo với vector ban đầu (khởi tạo phần tử)
     Stack(const vector<T>& initElements) {
         elements = initElements;
     }
 
-    // Hàm Hủy
+    // Hàm Hủy ( ko có gì)
     ~Stack() {}
 
     void push(T a) {
@@ -35,10 +35,12 @@ public:
         }
     }
 
+    // đếm số phần tửtử
     size_t size() const {
         return elements.size();
     }
-
+    
+    // làm trống ngăn
     void clear() {
         elements.clear();
     }
