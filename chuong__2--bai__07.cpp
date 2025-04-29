@@ -18,6 +18,18 @@ public:
     int GetDay(){return day;}
     int GetMonth(){return month;}
     int GetYear(){return year;}
+    void SetDay(int newDay){
+        if (isDateValid(newDay, month, year))
+            day = newDay;
+    }
+    void SetMonth(int newMonth){
+        if (isDateValid(day, newMonth, year))
+            month = newMonth;
+    }
+    void SetYear(int newYear){
+        if (isDateValid(day, month, newYear))
+            year = newYear;
+    }
     bool isLeap(int _year) { // kiểm tra năm nhuận
         return (_year%400==0||(_year%4==0&&_year%100!=0));
     }
