@@ -16,6 +16,24 @@ public:
         weight = a.weight;
         sex = a.sex;
     }
+    int getAge() {
+        return age;
+    }
+    float getWeight() {
+        return weight;
+    }
+    int getSex(){
+        return sex;
+    }
+    void setAge(int a) {
+        age = a;
+    }
+    void setWeight(float w) {
+        weight = w;
+    }
+    void setSex(int x) {
+        sex = x;
+    }
     virtual ~animal() {
         cout << "Dong vat bi huy" << endl;
     }
