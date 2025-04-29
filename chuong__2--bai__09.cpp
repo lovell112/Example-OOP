@@ -8,9 +8,7 @@ private:
 
 public:
     // Hàm khởi tạo mặc định
-    Stack() {
-        // Không cần làm gì thêm, vector tự động khởi tạo
-    }
+    Stack() {}
 
     // Hàm khởi tạo sao chép (copy constructor)
     Stack(const Stack& other) {
@@ -22,10 +20,13 @@ public:
         elements = initElements;
     }
 
+    // Hàm Hủy
+    ~Stack() {}
+
     void push(T a) {
         elements.push_back(a);
     }
-    
+
     void take() {
         if (!elements.empty()) {
             elements.pop_back();
@@ -48,6 +49,24 @@ public:
             cout << x << " ";
         }
         cout << "\n";
+    }
+
+    // Hàm get: lấy phần tử tại vị trí index
+    T getElement(int index) const {
+        if (index >= 0 && index < elements.size()) {
+            return elements[index];
+        } else {
+            throw out_of_range("Chi so khong hop le trong Stack");
+        }
+    }
+
+    // Hàm set: gán giá trị mới cho phần tử tại index
+    void setElement(int index, T value) {
+        if (index >= 0 && index < elements.size()) {
+            elements[index] = value;
+        } else {
+            throw out_of_range("Chi so khong hop le trong Stack");
+        }
     }
 
     // Toán tử xuất
@@ -106,6 +125,15 @@ int main() {
     cout << "Stack s4 (copy từ s3): " << s4 << "\n";
 
     cout << "So sanh s1 < s2: " << (s1 < s2 ? "Dung" : "Sai") << "\n";
+
+    // Test get và set
+    try {
+        cout << "Phan tu thu 1 cua s3: " << s3.getElement(1) << "\n"; // Index 1 là phần tử "2"
+        s3.setElement(1, 88);
+        cout << "Sau khi set, s3: " << s3 << "\n"; // Phần tử 2 biến thành 88
+    } catch (const out_of_range& e) {
+        cout << "Loi: " << e.what() << "\n";
+    }
 
     return 0;
 }
