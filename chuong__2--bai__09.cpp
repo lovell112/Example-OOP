@@ -102,40 +102,51 @@ public:
 };
 
 int main() {
-    Stack<int> s1, s2;
+    Stack<int> s;
 
-    cin >> s1;
+    cout << "=== Khoi tao Stack ===\n";
+    vector<int> init = {5, 10, 15};
+    for (int val : init) {
+        s.push(val);
+    }
+    cout << "Stack ban dau: " << s << "\n";
 
-    cout << "So luong phan tu: " << s1.size() << "\n";
+    cout << "\n=== Them phan tu ===\n";
+    s.push(20);
+    cout << "Sau khi push 20: " << s << "\n";
 
-    s1.push(99);
-    cout << s1 << "\n";
+    cout << "\n=== Lay phan tu (pop) ===\n";
+    s.take();
+    cout << "Sau khi pop: " << s << "\n";
 
-    s1.take();
-    cout << s1 << "\n";
-
-    s1.clear();
-    cout << s1 << "\n";
-
-    // Test constructor từ vector
-    vector<int> v = {1, 2, 3};
-    Stack<int> s3(v);
-    cout << "Stack s3: " << s3 << "\n";
-
-    // Test copy constructor
-    Stack<int> s4(s3);
-    cout << "Stack s4 (copy từ s3): " << s4 << "\n";
-
-    cout << "So sanh s1 < s2: " << (s1 < s2 ? "Dung" : "Sai") << "\n";
-
-    // Test get và set
+    cout << "\n=== Lay phan tu tai chi so 1 ===\n";
     try {
-        cout << "Phan tu thu 1 cua s3: " << s3.getElement(1) << "\n"; // Index 1 là phần tử "2"
-        s3.setElement(1, 88);
-        cout << "Sau khi set, s3: " << s3 << "\n"; // Phần tử 2 biến thành 88
+        int value = s.getElement(1);
+        cout << "Phan tu tai chi so 1: " << value << "\n";
     } catch (const out_of_range& e) {
         cout << "Loi: " << e.what() << "\n";
     }
 
+    cout << "\n=== Thay doi gia tri tai chi so 0 ===\n";
+    try {
+        s.setElement(0, 99);
+        cout << "Sau khi set: " << s << "\n";
+    } catch (const out_of_range& e) {
+        cout << "Loi: " << e.what() << "\n";
+    }
+
+    cout << "\n=== So sanh voi Stack khac ===\n";
+    vector<int> otherInit = {1, 2};
+    Stack<int> s2(otherInit);
+    cout << "Stack s2: " << s2 << "\n";
+    cout << (s < s2 ? "Stack s < s2" : "Stack s >= s2") << "\n";
+
+    cout << "\n=== Lam rong Stack ===\n";
+    s.clear();
+    cout << "Stack sau khi clear: " << s << "\n";
+
+    cout << "\n=== Ket thuc chuong trinh ===\n";
+
     return 0;
 }
+
