@@ -14,12 +14,10 @@ public:
         this->c = c;
     }
 
- 
     float getA() const { return a; }
     float getB() const { return b; }
     float getC() const { return c; }
 
-  
     void setA(float value) { a = value; }
     void setB(float value) { b = value; }
     void setC(float value) { c = value; }
@@ -49,12 +47,24 @@ public:
         os << "Canh a: " << tg.a << ", canh b: " << tg.b << ", canh c: " << tg.c << endl;
         return os;
     }
+
+    friend istream& operator>>(istream& is, TamGiac& tg) {
+        cout << "Nhap canh a: ";
+        is >> tg.a;
+        cout << "Nhap canh b: ";
+        is >> tg.b;
+        cout << "Nhap canh c: ";
+        is >> tg.c;
+        return is;
+    }
 };
 
 class TamGiacDeu : public TamGiac {
 public:
+    TamGiacDeu() : TamGiac(0, 0, 0) {}
     TamGiacDeu(float canh) : TamGiac(canh, canh, canh) {}
-    float getCanh() const { return a; } 
+
+    float getCanh() const { return a; }
     void setCanh(float value) { a = b = c = value; }
 
     friend ostream& operator<<(ostream& os, const TamGiacDeu& tgd) {
@@ -66,10 +76,19 @@ public:
         }
         return os;
     }
+
+    friend istream& operator>>(istream& is, TamGiacDeu& tgd) {
+        float canh;
+        cout << "Nhap do dai canh cua tam giac deu: ";
+        is >> canh;
+        tgd.setCanh(canh);
+        return is;
+    }
 };
 
 int main() {
-    TamGiacDeu m(5);
+    TamGiacDeu m;
+    cin >> m;
     cout << m;
 
     return 0;
