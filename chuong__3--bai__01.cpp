@@ -7,12 +7,22 @@ protected:
     float a, b, c;
 
 public:
-    TamGiac() {}
+    TamGiac() : a(0), b(0), c(0) {}
     TamGiac(float a, float b, float c) {
         this->a = a;
         this->b = b;
         this->c = c;
     }
+
+ 
+    float getA() const { return a; }
+    float getB() const { return b; }
+    float getC() const { return c; }
+
+  
+    void setA(float value) { a = value; }
+    void setB(float value) { b = value; }
+    void setC(float value) { c = value; }
 
     bool kiemtratamgiac() const {
         return (a + b > c) && (a + c > b) && (b + c > a);
@@ -44,6 +54,8 @@ public:
 class TamGiacDeu : public TamGiac {
 public:
     TamGiacDeu(float canh) : TamGiac(canh, canh, canh) {}
+    float getCanh() const { return a; } 
+    void setCanh(float value) { a = b = c = value; }
 
     friend ostream& operator<<(ostream& os, const TamGiacDeu& tgd) {
         os << "Tam giac deu co canh: " << endl;
@@ -59,5 +71,6 @@ public:
 int main() {
     TamGiacDeu m(5);
     cout << m;
+
     return 0;
 }
