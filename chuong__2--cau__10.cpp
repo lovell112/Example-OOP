@@ -123,10 +123,5 @@ int main (){
     e.xuat();
     f.xuat();
     g.xuat();
-    
-    Socan7 j;
-    j.nhap();
-    (-j).xuat();
-    j.xuat();
     return 0;
 }
